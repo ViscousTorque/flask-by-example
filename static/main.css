@@ -23,3 +23,11 @@
   color: white;
   box-shadow: 2px 2px 2px gray;
 }
+
+#url-box {
+  max-width: 300px;
+}
+
+.container {
+  max-width: 1000px;
+}

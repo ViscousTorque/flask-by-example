@@ -11,8 +11,8 @@ from collections import Counter
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from redis_config import q, conn
+from rq.job import Job
 
-# Initialize Flask App
 def create_app():
     app = Flask(__name__)
     app.config.from_object(os.getenv('APP_SETTINGS'))
@@ -20,7 +20,6 @@ def create_app():
     db.init_app(app)
     return app
 
-# Load env variables
 load_dotenv()
 db = SQLAlchemy()
 app = create_app()
@@ -66,30 +65,9 @@ def count_and_save_words(url):
             print({"error": errors})
             return None
 
-# @app.route('/', methods=['GET', 'POST'])
-# def index():
-#     if request.method == "POST":
-#         url = request.form['url']
-#         if not url.startswith(('https://', 'http://')):
-#             url = 'http://' + url
-        
-#         job = q.enqueue(count_and_save_words, args=(url,), ttl=5000, result_ttl=5000)
-#         print(f"Job enqueued with ID: {job.get_id()}")
-#         return redirect(url_for('get_results', job_key=job.get_id()))
-#     return render_template('index.html')
-
-from rq.job import Job
-
 @app.route("/results/<job_key>", methods=['GET'])
 def get_results(job_key):
     job = Job.fetch(job_key, connection=conn)
-
-    print(f"Job ID: {job.id}")
-    print(f"Job Status: {job.get_status()}")
-    print(f"Job Result: {job.result}")
-    print(f"Job Args: {job.args}")
-    print(f"Job Exception: {job.exc_info}")
-
     if job.is_finished:
         result = Result.query.filter_by(id=job.result).first()
         results = sorted(
@@ -105,22 +83,15 @@ def get_results(job_key):
 def index():
     return render_template('index.html')
 
-
 @app.route('/start', methods=['POST'])
 def get_counts():
-    # this import solves a rq bug which currently exists
-    from app import count_and_save_words
-
-    # get url
     data = json.loads(request.data.decode())
     url = data["url"]
     if not url[:8].startswith(('https://', 'http://')):
         url = 'http://' + url
-    # start job
     job = q.enqueue_call(
         func=count_and_save_words, args=(url,), result_ttl=5000
     )
-    # return created job id
     return job.get_id()
 
 
