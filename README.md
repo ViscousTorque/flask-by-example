@@ -1,7 +1,7 @@
 # Python Flask By Example
 
 ## Intro 
-The reference material is a bit old and a few modifications were required to get this working.
+The reference material is a bit old and a few modifications were required to get this working.  I did skip any material relating to heroku deployment since I wanted to see how the python and front interacted.
 
 ## VS Code
 IDE vs code with relevant plugins:
@@ -19,7 +19,8 @@ IDE vs code with relevant plugins:
 5. https://realpython.com/flask-by-example-integrating-flask-and-angularjs/
 6. SKIPPED https://realpython.com/updating-the-staging-environment/
 7. https://realpython.com/flask-by-example-updating-the-ui/
-    * SKIPPED the herohu deploy
+    * SKIPPED the heroku deploy
+8. https://realpython.com/flask-by-example-custom-angular-directive-with-d3/
 
 ## Setup new virtual env and install modules
 * python3 -m venv venv
