@@ -1,12 +1,13 @@
 # Python Flask By Example
 
 ## Intro 
-The reference material is a bit old and a few modifications were required to get this working.  I did skip any material relating to heroku deployment since I wanted to see how the python and front interacted.
+The reference material is a bit old and a few modifications were required to get this working.  I did skip any material relating to heroku deployment since I wanted to see how the python and frontend (Angular) interacted.
 
 ## VS Code
 IDE vs code with relevant plugins:
 * Python
 * Python Debugger
+* Pylance
 
 ## Ubuntu 24.04 desktop
 
