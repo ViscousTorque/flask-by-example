@@ -21,7 +21,9 @@
             <div class="form-group">
               <input type="text" name="url" class="form-control" id="url-box" placeholder="Enter URL..." style="max-width: 300px;" ng-model="url" required>
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
+              {% raw %}
+              <button type="submit" class="btn btn-primary" ng-disabled="loading">{{ submitButtonText }}</button>
+              {% endraw %}
           </form>
         </div>
         <div class="col-sm-5 col-sm-offset-1">
@@ -38,12 +40,10 @@
               <tbody>
                 {% raw %}
                 <tr ng-repeat="element in wordcounts">
-          
                   <td>{{ element[0] }}</td>
                   <td>{{ element[1] }}</td>
-          
                 </tr>
-              {% endraw %}
+                {% endraw %}
               </tbody>
             </table>
           </div>

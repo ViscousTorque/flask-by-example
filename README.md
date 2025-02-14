@@ -11,12 +11,15 @@ IDE vs code with relevant plugins:
 ## Ubuntu 24.04 desktop
 
 ## References
-* https://realpython.com/flask-by-example-part-1-project-setup/
+1. https://realpython.com/flask-by-example-part-1-project-setup/
     * NOTE: set up the project, didnt deploy with heroku, local machine curiosity
-* https://realpython.com/flask-by-example-part-2-postgres-sqlalchemy-and-alembic/
-* https://realpython.com/flask-by-example-part-3-text-processing-with-requests-beautifulsoup-nltk/
-* https://realpython.com/flask-by-example-implementing-a-redis-task-queue/
-* https://realpython.com/flask-by-example-integrating-flask-and-angularjs/
+2. https://realpython.com/flask-by-example-part-2-postgres-sqlalchemy-and-alembic/
+3. https://realpython.com/flask-by-example-part-3-text-processing-with-requests-beautifulsoup-nltk/
+4. https://realpython.com/flask-by-example-implementing-a-redis-task-queue/
+5. https://realpython.com/flask-by-example-integrating-flask-and-angularjs/
+6. SKIPPED https://realpython.com/updating-the-staging-environment/
+7. https://realpython.com/flask-by-example-updating-the-ui/
+    * SKIPPED the herohu deploy
 
 ## Setup new virtual env and install modules
 * python3 -m venv venv
