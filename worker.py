@@ -6,13 +6,11 @@ from models import db
 
 listen = ['default']
 
-# ✅ Create Flask app instance properly
 app = create_app()
 
 if __name__ == '__main__':
     print("Starting worker...")
 
-    # ✅ Ensures the worker has Flask context
     with app.app_context():
         worker = Worker([Queue(name, connection=conn) for name in listen], connection=conn)
         worker.work()

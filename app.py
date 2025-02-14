@@ -3,6 +3,7 @@ import requests
 import operator
 import re
 import nltk
+import json
 from flask import jsonify, redirect, url_for, render_template, request, Flask
 from flask_sqlalchemy import SQLAlchemy
 from stop_words import stops
@@ -65,17 +66,17 @@ def count_and_save_words(url):
             print({"error": errors})
             return None
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    if request.method == "POST":
-        url = request.form['url']
-        if not url.startswith(('https://', 'http://')):
-            url = 'http://' + url
+# @app.route('/', methods=['GET', 'POST'])
+# def index():
+#     if request.method == "POST":
+#         url = request.form['url']
+#         if not url.startswith(('https://', 'http://')):
+#             url = 'http://' + url
         
-        job = q.enqueue(count_and_save_words, args=(url,), ttl=5000, result_ttl=5000)
-        print(f"Job enqueued with ID: {job.get_id()}")
-        return redirect(url_for('get_results', job_key=job.get_id()))
-    return render_template('index.html')
+#         job = q.enqueue(count_and_save_words, args=(url,), ttl=5000, result_ttl=5000)
+#         print(f"Job enqueued with ID: {job.get_id()}")
+#         return redirect(url_for('get_results', job_key=job.get_id()))
+#     return render_template('index.html')
 
 from rq.job import Job
 
@@ -99,6 +100,29 @@ def get_results(job_key):
         return jsonify(results)
     else:
         return "Nay!", 202
+    
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    return render_template('index.html')
+
+
+@app.route('/start', methods=['POST'])
+def get_counts():
+    # this import solves a rq bug which currently exists
+    from app import count_and_save_words
+
+    # get url
+    data = json.loads(request.data.decode())
+    url = data["url"]
+    if not url[:8].startswith(('https://', 'http://')):
+        url = 'http://' + url
+    # start job
+    job = q.enqueue_call(
+        func=count_and_save_words, args=(url,), result_ttl=5000
+    )
+    # return created job id
+    return job.get_id()
+
 
 if __name__ == '__main__':
     app.run()
